@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "876743140978",
+    "project_id": "aplikasi-koperasi-eeb64",
+    "storage_bucket": "aplikasi-koperasi-eeb64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876743140978:android:05dea9877e22aa2db344eb",
+        "android_client_info": {
+          "package_name": "com.example.tugas1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876743140978-va7fhf7h9duengi4cj8dnikobbe9ig39.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA65j2SY5CwNodaAM1CVavTC_fpb6G_mtc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876743140978-va7fhf7h9duengi4cj8dnikobbe9ig39.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
