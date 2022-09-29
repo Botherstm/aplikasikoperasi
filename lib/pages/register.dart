@@ -2,22 +2,33 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
-  final _fromKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
+class _RegisterState extends State<Register> {
+  final bool isObscure = true;
+
+  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   var loading = false;
   @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _usernameController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    bool isObscure = true;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -55,18 +66,53 @@ class _LoginState extends State<Login> {
                       children: const [
                         Padding(
                           padding: EdgeInsets.only(left: 5),
-                          child: Text("Username"),
+                          child: Text("email"),
                         )
                       ],
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    const TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
+                    TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a Email!';
+                        }
+                        return null;
+                      },
+                      controller: _emailController,
+                      obscureText: isObscure,
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Username',
+                        labelText: 'Email',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.only(left: 5),
+                          child: Text("username"),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a Username';
+                        }
+                        return null;
+                      },
+                      controller: _usernameController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'username',
                       ),
                     ),
                     const SizedBox(
@@ -80,12 +126,32 @@ class _LoginState extends State<Login> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const TextField(
-                      obscureText: true,
+                    TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a password!';
+                        }
+                        return null;
+                      },
+                      obscureText: isObscure,
+                      controller: _passwordController,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
+                        border: const OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            isObscure ? Icons.visibility_off : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isObscure = !isObscure;
+                            });
+                          },
+                        ),
+                        hintText: "Password",
+                        hintStyle: const TextStyle(color: Colors.grey),
                       ),
+                      style: const TextStyle(color: Colors.black),
+                      autofocus: false,
                     ),
                     ElevatedButton(
                       onPressed: () {},
@@ -122,7 +188,7 @@ class _LoginState extends State<Login> {
                         primary: const Color.fromRGBO(8, 3, 82, 1),
                       ),
                       child: const SizedBox(
-                        width: 50,
+                        width: 70,
                         child: Center(
                           child: Text(
                             'Register',
@@ -141,17 +207,26 @@ class _LoginState extends State<Login> {
   }
 
   Future _signUp() async {
-    setState(() {
-      loading = true;
-    });
+    // setState(() {
+    //   loading = true;
+    // });
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
       await FirebaseFirestore.instance.collection('users').add({
-        'email': _emailController,
-        // 'imageurl': imageUrl,
-        'name': _nameController,
-        'password': _passwordController,
+        'email': _emailController.text,
+        //   // 'imageurl': imageUrl,
+        'username': _usernameController.text,
+        'password': _passwordController.text,
       });
       await showDialog(
         context: context,
@@ -172,6 +247,7 @@ class _LoginState extends State<Login> {
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       _handleSignUpError(e);
+      // print(e);
     }
   }
 

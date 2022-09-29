@@ -33,6 +33,7 @@ dependencies:
   firebase_core: ^1.23.0
   flutter:
     sdk: flutter
+  material: ^1.0.0+2
 
 dev_dependencies:
   flutter_lints: ^2.0.0
