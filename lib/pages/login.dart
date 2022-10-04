@@ -12,7 +12,6 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final bool isObscure = true;
-  final _fromKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
