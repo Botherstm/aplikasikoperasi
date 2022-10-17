@@ -12,8 +12,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  String nim = '2015051058';
-  String nama = '2015051058';
+  String nim = '2015051043';
+  String nama = 'james pieter loro';
 
   @override
   Widget build(BuildContext context) {

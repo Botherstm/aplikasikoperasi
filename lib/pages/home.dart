@@ -71,7 +71,7 @@ class _HomeState extends State<Home> {
                         children: [
                           Container(
                             child: Image(
-                              image: AssetImage('assets/img/dita.jpeg'),
+                              image: AssetImage('assets/img/foto.jpg'),
                               width: 180,
                               height: 180,
                             ),
