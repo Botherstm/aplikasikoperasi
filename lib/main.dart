@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:tugas1dosen/pages/home.dart';
 import 'pages/login.dart';
 
 void main() {
@@ -13,37 +14,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'aplikasi opesrasi',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Login(),
-    );
+        builder: (context, widget) => ResponsiveWrapper.builder(
+              ClampingScrollWrapper.builder(context, widget!),
+              breakpoints: [
+                ResponsiveBreakpoint.resize(350, name: MOBILE),
+                ResponsiveBreakpoint.resize(600, name: TABLET),
+                ResponsiveBreakpoint.resize(800, name: DESKTOP),
+                ResponsiveBreakpoint.resize(1700, name: 'XL'),
+              ],
+            ),
+        debugShowCheckedModeBanner: false,
+        title: 'aplikasi opesrasi',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Login());
   }
 }
-
-// ignore: must_be_immutable
-
-// ignore: must_be_immutable
-// class Checker extends StatelessWidget {
-//   var password;
-
-//   var username;
-//   Checker({super.key, required this.username, required this.password});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       builder: (context, snapshot) {
-//         if (ConnectionState == ConnectionState.done) {
-//           return Home(
-//             password: null,
-//             username: null,
-//           );
-//         }
-//         return const Login();
-//       },
-//     );
-//   }
-// }

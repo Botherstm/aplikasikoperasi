@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:responsive_framework/responsive_row_column.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:tugas1dosen/pages/login.dart';
 
 class Home extends StatefulWidget {
@@ -19,16 +22,27 @@ class _HomeState extends State<Home> {
         title: const Text('Koperasi Undiksha'),
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 10, 7, 139),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Login()),
-              );
-            },
-            icon: Icon(Icons.logout),
+        leading: ResponsiveVisibility(
+          hiddenWhen: [Condition.largerThan(name: TABLET)],
+          child: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.menu),
           ),
+        ),
+        actions: [
+          ResponsiveVisibility(
+            visible: false,
+            visibleWhen: [Condition.largerThan(name: TABLET)],
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
+              },
+              icon: Icon(Icons.logout),
+            ),
+          )
         ],
       ),
       body: ListView(
@@ -57,7 +71,7 @@ class _HomeState extends State<Home> {
                         children: [
                           Container(
                             child: Image(
-                              image: AssetImage('assets/img/foto.jpg'),
+                              image: AssetImage('assets/img/dita.jpeg'),
                               width: 180,
                               height: 180,
                             ),
@@ -125,23 +139,56 @@ class _HomeState extends State<Home> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            ResponsiveRowColumn(
+                              rowMainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              layout: ResponsiveWrapper.of(context)
+                                      .isSmallerThan(DESKTOP)
+                                  ? ResponsiveRowColumnType.COLUMN
+                                  : ResponsiveRowColumnType.ROW,
                               children: [
-                                tombolkategori(Icons.wallet, 'Cek Saldo'),
-                                tombolkategori(Icons.money, 'Transfer'),
-                                tombolkategori(Icons.money_sharp, 'Deposito'),
+                                ResponsiveRowColumnItem(
+                                  rowFlex: 1,
+                                  child:
+                                      tombolkategori(Icons.wallet, 'Cek Saldo'),
+                                ),
+                                ResponsiveRowColumnItem(
+                                  rowFlex: 2,
+                                  child:
+                                      tombolkategori(Icons.money, 'Transfer'),
+                                ),
+                                ResponsiveRowColumnItem(
+                                  rowFlex: 3,
+                                  child: tombolkategori(
+                                      Icons.money_sharp, 'Deposito'),
+                                ),
+                                ResponsiveRowColumnItem(
+                                  rowFlex: 4,
+                                  child: tombolkategori(
+                                      Icons.payment, 'Pembayaran'),
+                                ),
+                                ResponsiveRowColumnItem(
+                                  rowFlex: 5,
+                                  child: tombolkategori(
+                                      Icons.wallet_membership_outlined,
+                                      'Pinjaman'),
+                                ),
+                                ResponsiveRowColumnItem(
+                                  rowFlex: 6,
+                                  child: tombolkategori(
+                                      Icons.wallet_sharp, 'Mutasi'),
+                                ),
                               ],
                             ),
                             SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                tombolkategori(Icons.payment, 'Pembayaran'),
-                                tombolkategori(Icons.wallet_membership_outlined,
-                                    'Pinjaman'),
-                                tombolkategori(Icons.wallet_sharp, 'Mutasi'),
-                              ],
+                            ResponsiveRowColumn(
+                              rowMainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              layout: ResponsiveWrapper.of(context)
+                                      .isSmallerThan(DESKTOP)
+                                  ? ResponsiveRowColumnType.COLUMN
+                                  : ResponsiveRowColumnType.ROW,
+                              children: [],
                             ),
                           ]),
 

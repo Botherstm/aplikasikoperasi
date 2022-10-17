@@ -12,8 +12,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  String nim = '2015051043';
-  String nama = 'james pieter loro';
+  String nim = '2015051058';
+  String nama = '2015051058';
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,9 @@ class _LoginState extends State<Login> {
                         ElevatedButton(
                           onPressed: () {
                             String popup1 =
-                                "masukan Username & Password yang benar";
+                                "Username & Password Yang Anda Masukan Salah!!";
+                            String popup2 =
+                                "Selamat Datang di aplikasi Mbanking Undiksha!!";
                             // ignore: unrelated_type_equality_checks
                             if (_usernameController.text == nama &&
                                 // ignore: unrelated_type_equality_checks
@@ -96,6 +98,20 @@ class _LoginState extends State<Login> {
                                     password: _passwordController.text,
                                     username: _usernameController.text,
                                   ),
+                                ),
+                              );
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('login berhasil'),
+                                  content: Text(popup2),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('ok'))
+                                  ],
                                 ),
                               );
                             } else {
