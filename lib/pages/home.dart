@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
                     ResponsiveRowColumn(
                         rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                         layout:
-                            ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+                            ResponsiveWrapper.of(context).isSmallerThan('XL')
                                 ? ResponsiveRowColumnType.COLUMN
                                 : ResponsiveRowColumnType.ROW,
                         children: [

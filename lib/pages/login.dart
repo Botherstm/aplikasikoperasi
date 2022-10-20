@@ -145,11 +145,17 @@ class _LoginState extends State<Login> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
-                                  onPressed: () {},
-                                  child: const Text("Daftar Mbanking")),
+                                onPressed: () {},
+                                child: const Text(
+                                  "Daftar Mbanking",
+                                ),
+                              ),
                               TextButton(
-                                  onPressed: () {},
-                                  child: const Text("Lupa Passwrod?")),
+                                onPressed: () {},
+                                child: const Text(
+                                  "Lupa Passwrod?",
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -169,7 +175,9 @@ class _LoginState extends State<Login> {
           child: Column(
             children: const [
               Center(
-                child: Text("Copyright @2022 by James Pieter Loro"),
+                child: Text(
+                  "Copyright @2022 by James Pieter Loro",
+                ),
               )
             ],
           ),
