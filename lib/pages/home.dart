@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
                       height: 10.0,
                     ),
                     ResponsiveRowColumn(
-                        rowMainAxisAlignment: MainAxisAlignment.center,
+                        rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                         layout:
                             ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
                                 ? ResponsiveRowColumnType.COLUMN
@@ -107,7 +107,6 @@ class _HomeState extends State<Home> {
                                                       fontWeight:
                                                           FontWeight.bold)),
                                               Text('${widget.username}'),
-                                              Text('${widget.password}'),
                                             ],
                                           ),
                                         ),

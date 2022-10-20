@@ -14,20 +14,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        builder: (context, widget) => ResponsiveWrapper.builder(
-              ClampingScrollWrapper.builder(context, widget!),
-              breakpoints: [
-                ResponsiveBreakpoint.resize(350, name: MOBILE),
-                ResponsiveBreakpoint.resize(600, name: TABLET),
-                ResponsiveBreakpoint.resize(800, name: DESKTOP),
-                ResponsiveBreakpoint.resize(1700, name: 'XL'),
-              ],
-            ),
-        debugShowCheckedModeBanner: false,
-        title: 'aplikasi opesrasi',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Home(username: "james pieter loro", password: ""));
+      builder: (context, widget) => ResponsiveWrapper.builder(
+        ClampingScrollWrapper.builder(context, widget!),
+        breakpoints: [
+          ResponsiveBreakpoint.resize(350, name: MOBILE),
+          ResponsiveBreakpoint.resize(600, name: TABLET),
+          ResponsiveBreakpoint.resize(800, name: DESKTOP),
+          ResponsiveBreakpoint.resize(1700, name: 'XL'),
+        ],
+      ),
+      debugShowCheckedModeBanner: false,
+      title: 'aplikasi opesrasi',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Home(username: "james pieter loro", password: ""),
+    );
   }
 }
