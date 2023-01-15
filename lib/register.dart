@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:project_uas/login.dart';
 
 import 'main.dart';
 import 'model/list_users_model.dart';
@@ -32,7 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: <Widget>[
                 Container(
                   child: Image(
-                    image: AssetImage('assets/images/logo-undiksha.png'),
+                    image: AssetImage('assets/img/logo.png'),
                     width: 200,
                     height: 200,
                   ),
@@ -95,7 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 20.0,
                       ),
                       Center(
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.height * 0.2,
                           child: ElevatedButton(
                             onPressed: () async {
@@ -107,22 +108,40 @@ class _RegisterPageState extends State<RegisterPage> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MyApp()),
+                                    builder: (context) => Login()),
                               );
                             },
                             child: Text('Daftar'),
                           ),
                         ),
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Login(),
+                                ),
+                              );
+                            },
+                            child: Text('Sudah Memiliki Akun Login!'),
+                          ),
+                          TextButton(
+                              onPressed: () {}, child: Text('Lupa Password?'))
+                        ],
+                      ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 120,
+                  height: 50,
                 ),
                 Container(
                   child: Center(
-                      child: Text('Copyright @2022 by Selvina',
+                      child: Text('Copyright @2023 By James Pieter Loro',
                           style: TextStyle(fontWeight: FontWeight.bold))),
                   width: double.infinity,
                   height: 50.0,

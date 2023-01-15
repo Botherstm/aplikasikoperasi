@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'model/list_users_model.dart';
-import 'tampilan_kategori/cek_saldo.dart';
-import 'tampilan_kategori/deposito.dart';
-import 'tampilan_kategori/mutasi.dart';
-import 'tampilan_kategori/pembayaran.dart';
-import 'tampilan_kategori/pinjaman.dart';
-import 'tampilan_kategori/transfer.dart';
+import 'pages/cek_saldo.dart';
+import 'pages/deposito.dart';
+import 'pages/mutasi.dart';
+import 'pages/pembayaran.dart';
+import 'pages/pinjaman.dart';
+import 'pages/transfer.dart';
 import 'tombol.dart';
 
 class MobileView extends StatelessWidget {
@@ -41,7 +41,7 @@ class MobileView extends StatelessWidget {
                       flex: 1,
                       child: Container(
                         child: Image(
-                          image: AssetImage('assets/images/mypict.jpeg'),
+                          image: AssetImage('assets/img/foto.jpg'),
                           width: 180,
                           height: 180,
                         ),
@@ -105,8 +105,17 @@ class MobileView extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
+                padding: EdgeInsets.all(20.0),
+                // height: 100.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(
+                    color: Color.fromARGB(255, 10, 7, 139),
+                  ),
+                ),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -120,7 +129,7 @@ class MobileView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CekSaldo()),
+                                    builder: (context) => const CekSaldo()),
                               );
                             },
                           ),
@@ -131,7 +140,7 @@ class MobileView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Transfer()),
+                                    builder: (context) => const Transfer()),
                               );
                             },
                           ),
@@ -142,13 +151,13 @@ class MobileView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Deposito()),
+                                    builder: (context) => const Deposito()),
                               );
                             },
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -159,7 +168,7 @@ class MobileView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Pembayaran()),
+                                    builder: (context) => const Pembayaran()),
                               );
                             },
                           ),
@@ -170,7 +179,7 @@ class MobileView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Pinjaman()),
+                                    builder: (context) => const Pinjaman()),
                               );
                             },
                           ),
@@ -181,54 +190,41 @@ class MobileView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Mutasi()),
+                                    builder: (context) => const Mutasi()),
                               );
                             },
                           ),
                         ],
                       ),
                     ]),
-
-                padding: EdgeInsets.all(20.0),
-                // height: 100.0,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: Color.fromARGB(255, 10, 7, 139),
-                  ),
-                ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
-                decoration: BoxDecoration(),
+                decoration: const BoxDecoration(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
                       width: double.infinity,
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          color: Color.fromARGB(255, 206, 191, 238)),
+                          color: const Color.fromARGB(255, 206, 191, 238)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Butuh Bantuan?',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                                Text(
-                                  '0878-1234-1024',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25),
-                                ),
-                              ],
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text('Butuh Bantuan?',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              Text(
+                                '0878-1234-1024',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 25),
+                              ),
+                            ],
                           ),
                           Container(
                             child: Icon(

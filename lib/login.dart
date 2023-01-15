@@ -9,16 +9,17 @@ import 'model/list_users_model.dart';
 import 'register.dart';
 import 'service/list_users_service.dart';
 
-class myApp extends StatefulWidget {
-  const myApp({Key? key}) : super(key: key);
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
-  State<myApp> createState() => _myAppState();
+  State<Login> createState() => _LoginState();
 }
 
-class _myAppState extends State<myApp> {
+class _LoginState extends State<Login> {
   String Username = "";
   String Password = "";
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class _myAppState extends State<myApp> {
               children: <Widget>[
                 Container(
                   child: Image(
-                    image: AssetImage('assets/images/logo-undiksha.png'),
+                    image: AssetImage('assets/img/logo.png'),
                     width: 200,
                     height: 200,
                   ),
@@ -65,12 +66,21 @@ class _myAppState extends State<myApp> {
                         height: 10.0,
                       ),
                       TextFormField(
-                          onChanged: (value) {
-                            Username = value;
-                          },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          )),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter a Usename!';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          Username = value;
+                        },
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          enabledBorder: UnderlineInputBorder(),
+                          hintText: "Username",
+                        ),
+                      ),
                       SizedBox(
                         height: 20.0,
                       ),
@@ -79,11 +89,36 @@ class _myAppState extends State<myApp> {
                         height: 10.0,
                       ),
                       TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter a password!';
+                          }
+                          return null;
+                        },
+                        obscureText: _isObscure,
                         onChanged: (value) {
                           Password = value;
                         },
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isObscure
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            },
+                          ),
+                          border: UnderlineInputBorder(),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.5,
+                            ),
+                          ),
                         ),
                       ),
                       // Spacer(),
@@ -95,14 +130,32 @@ class _myAppState extends State<myApp> {
                           width: MediaQuery.of(context).size.height * 0.2,
                           child: ElevatedButton(
                             onPressed: () async {
-                              ListUsersService _service = ListUsersService();
+                              String popup =
+                                  "Selamat Datang di aplikasi M-banking Undiksha!!";
+                              ListUsersService service = ListUsersService();
                               ListUsersModel user =
-                                  await _service.postLogin(Username, Password);
+                                  await service.postLogin(Username, Password);
+                              // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         Dashboard(user: user)),
+                              );
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('login berhasil'),
+                                  content: Text(popup),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('ok'),
+                                    )
+                                  ],
+                                ),
                               );
                             },
                             child: Text('Login'),
@@ -115,9 +168,11 @@ class _myAppState extends State<myApp> {
                           TextButton(
                             onPressed: () {
                               Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RegisterPage()));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RegisterPage(),
+                                ),
+                              );
                             },
                             child: Text('Daftar MBanking'),
                           ),
@@ -133,7 +188,7 @@ class _myAppState extends State<myApp> {
                 ),
                 Container(
                   child: Center(
-                      child: Text('Copyright @2022 by Selvina',
+                      child: Text('Copyright @2023 By James Loro',
                           style: TextStyle(fontWeight: FontWeight.bold))),
                   width: double.infinity,
                   height: 50.0,

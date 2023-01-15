@@ -40,6 +40,7 @@ class _DashboardState extends State<Dashboard> {
         selectedFontSize: 13,
         unselectedFontSize: 13,
         iconSize: 30,
+        // ignore: prefer_const_literals_to_create_immutables
         items: [
           const BottomNavigationBarItem(
             label: "Setting",

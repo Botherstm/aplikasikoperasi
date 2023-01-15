@@ -42,7 +42,7 @@ class ListUsersService {
       data: formData,
     );
     print(username);
-    if (response.data['pesan'] == "Data berhasil disimpan, saldo awal 50.000") {
+    if (response.statusCode == 200) {
       final data = response.data;
       print(data['Berhasil']);
     } else {
@@ -55,27 +55,50 @@ class ListUsersService {
     final Response response;
     FormData formData =
         FormData.fromMap({"username": username, "password": password});
-    // {"username": username, "password": password};
 
-    // dio.options.headers['Authentication'] = 'Bearer $token'
-    // dio.options.headers['Content type'] = 'aplication/json'
-    response = await dio.post(
-      url,
-      data: formData,
-    );
-    print(username);
-    if (response.data['status'] == "success") {
-      final data = response.data;
-      print(data['user_id']);
-      return ListUsersModel(
-        user_id: data['data'][0]['user_id'],
-        username: username,
-        password: password,
-        nama: data['data'][0]['nama'],
-        saldo: data['data'][0]['saldo'],
+    try {
+      response = await dio.post(
+        url,
+        data: formData,
       );
-    } else {
-      return postLogin(username, password);
+      print(username);
+      // ignore: unrelated_type_equality_checks
+      if (response.statusCode == 200) {
+        final data = response.data;
+        print(data.toList());
+        return ListUsersModel(
+          user_id: data[0]['user_id'],
+          username: username,
+          password: password,
+          nama: data[0]['nama'],
+          saldo: data[0]['saldo'],
+          nomor_rekening: data[0]['nomor_rekening'],
+        );
+      } else {
+        return ErrorInterceptorHandler();
+      }
+    } on DioError catch (error, stacktrace) {
+      print('Exception occured: $error stackTrace: $stacktrace');
+      throw Exception(error.response);
+    }
+  }
+
+  getoneuser() async {
+    String url = 'http://apikoperasi.rey1024.com/getsingleuser';
+    final Response response;
+    response = await dio.get(url);
+
+    if (response.statusCode == 200) {
+      final data = response.data;
+      print(data.toList());
+      return ListUsersModel(
+        user_id: data[0]['user_id'],
+        username: data[0]['usename'],
+        password: data[0]['password'],
+        nama: data[0]['nama'],
+        saldo: data[0]['saldo'],
+        nomor_rekening: data[0]['nomor_rekening'],
+      );
     }
   }
 

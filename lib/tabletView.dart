@@ -44,6 +44,7 @@ class _TabletViewState extends State<TabletView> {
                     padding: EdgeInsets.all(6),
                     height: MediaQuery.of(context).size.height * 0.8,
                     width: MediaQuery.of(context).size.width * 0.3,
+                    color: Colors.blue,
                     // flex: 1,
                     child: ListView(
                       children: [
@@ -57,11 +58,11 @@ class _TabletViewState extends State<TabletView> {
                                 viewaktif = 1;
                               });
                             },
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.wallet,
                               size: 35,
                             ),
-                            title: Text(
+                            title: const Text(
                               'Cek Saldo',
                               style: TextStyle(
                                 fontSize: 18,
@@ -71,7 +72,7 @@ class _TabletViewState extends State<TabletView> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Material(
@@ -84,11 +85,11 @@ class _TabletViewState extends State<TabletView> {
                                 viewaktif = 2;
                               });
                             },
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.wallet,
                               size: 35,
                             ),
-                            title: Text(
+                            title: const Text(
                               'Transfer',
                               style: TextStyle(
                                 fontSize: 18,
@@ -98,11 +99,11 @@ class _TabletViewState extends State<TabletView> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Material(
-                          color: Color.fromARGB(255, 66, 164, 244),
+                          color: const Color.fromARGB(255, 66, 164, 244),
                           elevation: 10.0,
                           child: ListTile(
                             onTap: () {
@@ -111,11 +112,11 @@ class _TabletViewState extends State<TabletView> {
                                 viewaktif = 3;
                               });
                             },
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.wallet,
                               size: 35,
                             ),
-                            title: Text(
+                            title: const Text(
                               'Deposito',
                               style: TextStyle(
                                 fontSize: 18,
@@ -125,11 +126,11 @@ class _TabletViewState extends State<TabletView> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Material(
-                          color: Color.fromARGB(255, 66, 164, 244),
+                          color: const Color.fromARGB(255, 66, 164, 244),
                           elevation: 10.0,
                           child: ListTile(
                             onTap: () {
@@ -138,11 +139,11 @@ class _TabletViewState extends State<TabletView> {
                                 viewaktif = 4;
                               });
                             },
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.wallet,
                               size: 35,
                             ),
-                            title: Text(
+                            title: const Text(
                               'Pembayaran',
                               style: TextStyle(
                                 fontSize: 18,
@@ -152,7 +153,7 @@ class _TabletViewState extends State<TabletView> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Material(
@@ -165,11 +166,11 @@ class _TabletViewState extends State<TabletView> {
                                 viewaktif = 5;
                               });
                             },
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.wallet,
                               size: 35,
                             ),
-                            title: Text(
+                            title: const Text(
                               'Pinjaman',
                               style: TextStyle(
                                 fontSize: 18,
@@ -179,11 +180,11 @@ class _TabletViewState extends State<TabletView> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Material(
-                          color: Color.fromARGB(255, 66, 164, 244),
+                          color: const Color.fromARGB(255, 66, 164, 244),
                           elevation: 10.0,
                           child: ListTile(
                             onTap: () {
@@ -192,11 +193,11 @@ class _TabletViewState extends State<TabletView> {
                                 viewaktif = 6;
                               });
                             },
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.wallet,
                               size: 35,
                             ),
-                            title: Text(
+                            title: const Text(
                               'Mutasi',
                               style: TextStyle(
                                 fontSize: 18,
@@ -206,12 +207,11 @@ class _TabletViewState extends State<TabletView> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                       ],
                     ),
-                    color: Colors.blue,
                   ),
                 ],
               ),
@@ -226,11 +226,11 @@ class _TabletViewState extends State<TabletView> {
                               flex: 2,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text('Nasabah',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold)),
-                                  Text('Selvina Rinesti'),
+                                  Text('James Pieter Loro'),
                                   Text('Total Saldo Anda :',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold)),
