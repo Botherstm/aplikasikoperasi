@@ -27,11 +27,29 @@ class NasabahService {
     }
   }
 
-  postPenarikan(int user_id, double jumlah_tarikan) async {
+  penarikan(int user_id, double jumlah_tarikan) async {
     String url = 'http://apikoperasi.rey1024.com/tarikan';
     final Response response;
     FormData formData = FormData.fromMap(
         {"user_id": user_id, "jumlah_setoran": jumlah_tarikan});
+    try {
+      response = await dio.post(
+        url,
+        data: formData,
+      );
+      print('Berhasil');
+    } catch (e) {
+      print('Gagal');
+    }
+  }
+
+  setoran(int user_id, int jumlah_setoran) async {
+    String url = 'http://apikoperasi.rey1024.com/setoran';
+
+    FormData formData = FormData.fromMap(
+        {"user_id": user_id, "jumlah_setoran": jumlah_setoran});
+    // ignore: unused_local_variable
+    final Response response;
     try {
       response = await dio.post(
         url,
