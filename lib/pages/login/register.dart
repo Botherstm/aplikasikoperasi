@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
-import 'package:project_uas/login.dart';
+import '../login/login.dart';
 
-import 'main.dart';
-import 'model/list_users_model.dart';
-import 'service/list_users_service.dart';
+import '../../main.dart';
+import '../../model/list_users_model.dart';
+import '../../service/list_users_service.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -13,11 +13,12 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController EmailController = TextEditingController();
+  TextEditingController UsernameController = TextEditingController();
   TextEditingController PasswordController = TextEditingController();
   TextEditingController NamaController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    bool _isObscure = true;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -61,23 +62,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 10.0,
                       ),
                       TextFormField(
-                          controller: EmailController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a Username!';
+                            }
+                            return null;
+                          },
+                          controller: UsernameController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           )),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text('Password'),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      TextFormField(
-                        controller: PasswordController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
                       SizedBox(
                         height: 20.0,
                       ),
@@ -87,10 +81,49 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       TextFormField(
                         controller: NamaController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter a password!';
+                          }
+                          return null;
+                        },
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                         ),
                       ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text('Password'),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter a password!';
+                          }
+                          return null;
+                        },
+                        obscureText: _isObscure,
+                        controller: PasswordController,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isObscure
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            },
+                          ),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+
                       // Spacer(),
                       SizedBox(
                         height: 20.0,
@@ -100,18 +133,37 @@ class _RegisterPageState extends State<RegisterPage> {
                           width: MediaQuery.of(context).size.height * 0.2,
                           child: ElevatedButton(
                             onPressed: () async {
-                              ListUsersService _service = ListUsersService();
-                              ListUsersModel user = await _service.postRegister(
-                                  EmailController.text,
-                                  PasswordController.text,
-                                  NamaController.text);
+                              String popup =
+                                  "Akun Telah Didaftarkan Silahkan Login";
+                              ListUsersService service = ListUsersService();
+                              await service.postRegister(
+                                UsernameController.text,
+                                PasswordController.text,
+                                NamaController.text,
+                              );
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Login()),
+                                  builder: (context) => Login(),
+                                ),
+                              );
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('login berhasil'),
+                                  content: Text(popup),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('ok'),
+                                    )
+                                  ],
+                                ),
                               );
                             },
-                            child: Text('Daftar'),
+                            child: const Text('Daftar'),
                           ),
                         ),
                       ),
@@ -123,14 +175,16 @@ class _RegisterPageState extends State<RegisterPage> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Login(),
+                                  builder: (context) => const Login(),
                                 ),
                               );
                             },
-                            child: Text('Sudah Memiliki Akun Login!'),
+                            child: const Text('Sudah Memiliki Akun Login!'),
                           ),
                           TextButton(
-                              onPressed: () {}, child: Text('Lupa Password?'))
+                            onPressed: () {},
+                            child: const Text('Lupa Password?'),
+                          )
                         ],
                       ),
                     ],

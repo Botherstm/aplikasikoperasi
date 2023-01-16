@@ -1,19 +1,20 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
-import 'login.dart';
-import 'dashboard.dart';
-import 'tombol.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-void main() {
-  runApp(const MaterialApp(home: Login(), debugShowCheckedModeBanner: false));
-}
+import 'model/list_users_model.dart';
+import 'pages/login/login.dart';
 
-// Future<void> main() async {
-//   SharedPreferences prefs = await SharedPreferences.getInstance();
-//   var status = prefs.getBool('isLoggedIn') ?? false;
-//   print(status);
-//   runApp(MaterialApp(home: status == true ? Login() : Home()));
-// }
+void main() async {
+  ListUsersModel user;
+  runApp(
+    const MaterialApp(
+        // home: user == null ? Login() : MyApp(),
+        home: Login(),
+        debugShowCheckedModeBanner: false),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

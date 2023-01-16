@@ -2,12 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import 'package:responsive_framework/responsive_framework.dart';
-
-import 'dashboard.dart';
-import 'model/list_users_model.dart';
+import '../home/dashboard.dart';
+import '../../model/list_users_model.dart';
 import 'register.dart';
-import 'service/list_users_service.dart';
+import '../../service/list_users_service.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -17,7 +15,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  // ignore: non_constant_identifier_names
   String Username = "";
+  // ignore: non_constant_identifier_names
   String Password = "";
   bool _isObscure = true;
 
@@ -28,41 +28,41 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         title: const Text('Koperasi Undiksha'),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 10, 7, 139),
+        backgroundColor: const Color.fromARGB(255, 10, 7, 139),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               children: <Widget>[
                 Container(
-                  child: Image(
+                  alignment: Alignment.topCenter,
+                  padding: const EdgeInsets.only(top: 50.0),
+                  child: const Image(
                     image: AssetImage('assets/img/logo.png'),
                     width: 200,
                     height: 200,
                   ),
-                  alignment: Alignment.topCenter,
-                  padding: EdgeInsets.only(top: 50.0),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Container(
-                  padding: EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(20.0),
                   // height: 100.0,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0),
                     border: Border.all(
-                      color: Color.fromARGB(255, 10, 7, 139),
+                      color: const Color.fromARGB(255, 10, 7, 139),
                     ),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Username'),
-                      SizedBox(
+                      const Text('Username'),
+                      const SizedBox(
                         height: 10.0,
                       ),
                       TextFormField(
@@ -81,11 +81,11 @@ class _LoginState extends State<Login> {
                           hintText: "Username",
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
-                      Text('Password'),
-                      SizedBox(
+                      const Text('Password'),
+                      const SizedBox(
                         height: 10.0,
                       ),
                       TextFormField(
@@ -112,8 +112,8 @@ class _LoginState extends State<Login> {
                               });
                             },
                           ),
-                          border: UnderlineInputBorder(),
-                          enabledBorder: UnderlineInputBorder(
+                          border: const UnderlineInputBorder(),
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.grey,
                               width: 1.5,
@@ -122,7 +122,7 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       // Spacer(),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       Center(
@@ -158,7 +158,7 @@ class _LoginState extends State<Login> {
                                 ),
                               );
                             },
-                            child: Text('Login'),
+                            child: const Text('Login'),
                           ),
                         ),
                       ),
@@ -174,25 +174,27 @@ class _LoginState extends State<Login> {
                                 ),
                               );
                             },
-                            child: Text('Daftar MBanking'),
+                            child: const Text('Daftar M-Banking'),
                           ),
                           TextButton(
-                              onPressed: () {}, child: Text('Lupa Password?'))
+                            onPressed: () {},
+                            child: const Text('Lupa Password?'),
+                          )
                         ],
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 120,
                 ),
                 Container(
-                  child: Center(
+                  child: const Center(
                       child: Text('Copyright @2023 By James Loro',
                           style: TextStyle(fontWeight: FontWeight.bold))),
                   width: double.infinity,
                   height: 50.0,
-                  color: Color.fromARGB(255, 114, 142, 228),
+                  color: const Color.fromARGB(255, 114, 142, 228),
                 ),
               ],
             ),

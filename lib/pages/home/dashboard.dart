@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages, unused_import
 import 'package:vector_math/vector_math_operations.dart';
 
+import '../../model/list_users_model.dart';
+import '../scanner.dart';
 import 'mobileView.dart';
-import 'model/list_users_model.dart';
-import 'scanner.dart';
 import 'tabletView.dart';
 
 class Dashboard extends StatefulWidget {
@@ -24,7 +24,12 @@ class _DashboardState extends State<Dashboard> {
         title: const Text('Koperasi Undiksha'),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 10, 7, 139),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.logout))],
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.logout),
+          ),
+        ],
       ),
       body: LayoutBuilder(builder: (context, constraints) {
         if (constraints.maxWidth > 480) {
@@ -57,14 +62,16 @@ class _DashboardState extends State<Dashboard> {
         onPressed: () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => QrScanner()),
+            MaterialPageRoute(
+              builder: (context) => const QrScanner(),
+            ),
           );
         },
+        elevation: 4.0,
         child: Container(
           margin: const EdgeInsets.all(15.0),
           child: const Icon(Icons.qr_code_scanner),
         ),
-        elevation: 4.0,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

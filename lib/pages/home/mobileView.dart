@@ -1,13 +1,14 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
-import 'model/list_users_model.dart';
-import 'pages/cek_saldo.dart';
-import 'pages/deposito.dart';
-import 'pages/mutasi.dart';
-import 'pages/pembayaran.dart';
-import 'pages/pinjaman.dart';
-import 'pages/transfer.dart';
-import 'tombol.dart';
+import '../../model/list_users_model.dart';
+import '../../model/tombol.dart';
+import '../bank/cek_saldo.dart';
+import '../bank/deposito.dart';
+import '../bank/transfer.dart';
+import '../bank/pembayaran.dart';
+import '../bank/penarikan.dart';
 
 class MobileView extends StatelessWidget {
   final ListUsersModel user;
@@ -18,77 +19,76 @@ class MobileView extends StatelessWidget {
     return SingleChildScrollView(
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               Container(
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 // height: 100.0,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10.0),
                   border: Border.all(
-                    color: Color.fromARGB(255, 10, 7, 139),
+                    color: const Color.fromARGB(255, 10, 7, 139),
                   ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 1,
-                      child: Container(
-                        child: Image(
-                          image: AssetImage('assets/img/foto.jpg'),
-                          width: 180,
-                          height: 180,
-                        ),
+                      child: Image(
+                        image: AssetImage('assets/img/foto.jpg'),
+                        width: 180,
+                        height: 180,
                       ),
                     ),
                     Expanded(
                       flex: 3,
                       child: Container(
-                        decoration: BoxDecoration(),
+                        decoration: const BoxDecoration(),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
                               width: 150,
-                              padding: EdgeInsets.all(20.0),
+                              padding: const EdgeInsets.all(20.0),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  color: Color.fromARGB(255, 206, 191, 238)),
+                                  color:
+                                      const Color.fromARGB(255, 206, 191, 238)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Nasabah',
+                                  const Text('Nasabah',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold)),
                                   Text(user.nama.toString()),
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
-                              decoration: BoxDecoration(),
+                              decoration: const BoxDecoration(),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
                                     // width: 150,
-                                    padding: EdgeInsets.all(20.0),
+                                    padding: const EdgeInsets.all(20.0),
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color:
-                                            Color.fromARGB(255, 206, 191, 238)),
+                                        color: const Color.fromARGB(
+                                            255, 206, 191, 238)),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('Total Saldo Anda',
+                                        const Text('Total Saldo Anda',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold)),
                                         Text(user.saldo.toString()),
@@ -107,13 +107,13 @@ class MobileView extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Container(
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 // height: 100.0,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10.0),
                   border: Border.all(
-                    color: Color.fromARGB(255, 10, 7, 139),
+                    color: const Color.fromARGB(255, 10, 7, 139),
                   ),
                 ),
                 child: Column(
@@ -140,7 +140,10 @@ class MobileView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Transfer()),
+                                  builder: (context) => Transfer(
+                                    user: user,
+                                  ),
+                                ),
                               );
                             },
                           ),
@@ -179,7 +182,9 @@ class MobileView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Pinjaman()),
+                                    builder: (context) => Pinjaman(
+                                          user: user,
+                                        )),
                               );
                             },
                           ),
@@ -190,7 +195,10 @@ class MobileView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Mutasi()),
+                                  builder: (context) => Transfer(
+                                    user: user,
+                                  ),
+                                ),
                               );
                             },
                           ),
@@ -226,11 +234,9 @@ class MobileView extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Container(
-                            child: Icon(
-                              Icons.call,
-                              size: 80,
-                            ),
+                          const Icon(
+                            Icons.call,
+                            size: 80,
                           ),
                         ],
                       ),

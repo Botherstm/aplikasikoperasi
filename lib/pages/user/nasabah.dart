@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../model/list_users_model.dart';
+import '../../model/list_users_model.dart';
 
 class Nasabah extends StatelessWidget {
   final ListUsersModel user;

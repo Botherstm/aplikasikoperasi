@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class tombolkategori extends StatelessWidget {
+  // ignore: non_constant_identifier_names
   var jenis_icon;
   final String title;
   final VoidCallback? onPressed;
