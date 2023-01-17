@@ -1,17 +1,15 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
+import 'package:project_uas/pages/home/wrapper.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import 'model/list_users_model.dart';
-import 'pages/login/login.dart';
-
 void main() async {
-  ListUsersModel user;
+  // WidgetsFlutterBinding.ensureInitialized();
   runApp(
     const MaterialApp(
         // home: user == null ? Login() : MyApp(),
-        home: Login(),
+        home: Wrapper(),
         debugShowCheckedModeBanner: false),
   );
 }

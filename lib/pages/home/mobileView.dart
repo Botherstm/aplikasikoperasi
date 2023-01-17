@@ -1,18 +1,67 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:project_uas/service/service_app.dart';
 
 import '../../model/list_users_model.dart';
 import '../../model/tombol.dart';
+import '../../model/userpreference.dart';
 import '../bank/cek_saldo.dart';
 import '../bank/deposito.dart';
 import '../bank/transfer.dart';
-import '../bank/pembayaran.dart';
 import '../bank/penarikan.dart';
 
-class MobileView extends StatelessWidget {
-  final ListUsersModel user;
-  const MobileView({Key? key, required this.user}) : super(key: key);
+// ignore: must_be_immutable
+class MobileView extends StatefulWidget {
+  MobileView({Key? key, required this.myUser}) : super(key: key);
+  ListUsersModel? myUser;
+  @override
+  State<MobileView> createState() => _MobileViewState();
+}
+
+class _MobileViewState extends State<MobileView> {
+  // ignore: non_constant_identifier_names
+  double hitungPersentase(double total, double persentase) {
+    return total * persentase / 100;
+  }
+
+  Service userServices = Service();
+
+  ListUsersModel? user;
+
+  UserReferences pref = UserReferences();
+
+  updateUser() async {
+    List<ListUsersModel?> userA =
+        await userServices.getUser(user_id: user!.user_id);
+    user = userA[0];
+    print('updateUser ${user!.saldo}');
+  }
+
+  startUser() {
+    user = widget.myUser;
+    print('startUser ${user!.saldo}');
+  }
+
+  @override
+  void initState() {
+    startUser();
+    super.initState();
+  }
+
+  bool visibility1 = true; //agar saat setiap page dibuka, dalam kondisi show
+  bool visibility2 = false; //agar saat setiap page dibuka, dalam kondisi hide
+
+  void _changed(bool visibility, String field) {
+    setState(() {
+      if (field == '1') {
+        visibility1 = visibility;
+      }
+      if (field == '2') {
+        visibility2 = visibility;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +87,6 @@ class MobileView extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(
-                      flex: 1,
-                      child: Image(
-                        image: AssetImage('assets/img/foto.jpg'),
-                        width: 180,
-                        height: 180,
-                      ),
-                    ),
                     Expanded(
                       flex: 3,
                       child: Container(
@@ -54,7 +95,7 @@ class MobileView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              width: 150,
+                              width: 350,
                               padding: const EdgeInsets.all(20.0),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -66,7 +107,7 @@ class MobileView extends StatelessWidget {
                                   const Text('Nasabah',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold)),
-                                  Text(user.nama.toString()),
+                                  Text(user!.nama),
                                 ],
                               ),
                             ),
@@ -77,7 +118,7 @@ class MobileView extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
-                                    // width: 150,
+                                    width: 350,
                                     padding: const EdgeInsets.all(20.0),
                                     decoration: BoxDecoration(
                                         borderRadius:
@@ -88,10 +129,48 @@ class MobileView extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text('Total Saldo Anda',
+                                        const Text(
+                                          'Total Saldo Anda',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            await updateUser();
+                                            setState(() {
+                                              user = user;
+                                              user!.saldo = user!.saldo;
+                                            });
+                                            _changed(true, '1');
+                                          },
+                                          child: visibility1
+                                              ? InkWell(
+                                                  onTap: () {
+                                                    _changed(false,
+                                                        '1'); //fungsi changed
+                                                  },
+                                                  child: const Icon(
+                                                    Icons
+                                                        .keyboard_arrow_up_sharp,
+                                                    color: Colors.black,
+                                                  ),
+                                                )
+                                              : const Icon(
+                                                  Icons
+                                                      .keyboard_arrow_right_sharp,
+                                                  color: Colors.black,
+                                                ),
+                                        ),
+                                        Visibility(
+                                          visible: visibility1,
+                                          child: Text(
+                                            'Rp ' + user!.saldo.toString(),
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                        Text(user.saldo.toString()),
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -120,7 +199,7 @@ class MobileView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           tombolkategori(
                             Icons.wallet,
@@ -129,7 +208,8 @@ class MobileView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const CekSaldo()),
+                                  builder: (context) => const CekSaldo(),
+                                ),
                               );
                             },
                           ),
@@ -140,23 +220,7 @@ class MobileView extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Transfer(
-                                    user: user,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          tombolkategori(
-                            Icons.money_sharp,
-                            'Deposito',
-                            () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Deposito(
-                                    user: user,
-                                  ),
+                                  builder: (context) => Transfer(),
                                 ),
                               );
                             },
@@ -165,42 +229,28 @@ class MobileView extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           tombolkategori(
-                            Icons.payment,
-                            'Pembayaran',
+                            Icons.money_sharp,
+                            'Deposit',
                             () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Pembayaran()),
+                                  builder: (context) => Deposito(),
+                                ),
                               );
                             },
                           ),
                           tombolkategori(
                             Icons.wallet_membership_outlined,
-                            'Pinjaman',
+                            'Penarikan',
                             () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Pinjaman(
-                                          user: user,
-                                        )),
-                              );
-                            },
-                          ),
-                          tombolkategori(
-                            Icons.wallet_sharp,
-                            'Mutasi',
-                            () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Transfer(
-                                    user: user,
-                                  ),
+                                  builder: (context) => Penarikan(),
                                 ),
                               );
                             },
@@ -227,11 +277,12 @@ class MobileView extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
-                              Text('Butuh Bantuan?',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
                               Text(
-                                '0878-1234-1024',
+                                'Butuh Bantuan?',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                '0822-1429-8573',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 25),
                               ),

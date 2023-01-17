@@ -1,19 +1,105 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:project_uas/service/service_app.dart';
 
 import '../../model/list_users_model.dart';
-import '../../service/nasabah.dart';
-import '../home/dashboard.dart';
+import '../../model/userpreference.dart';
 
-class Pinjaman extends StatelessWidget {
-  final ListUsersModel user;
-  const Pinjaman({Key? key, required this.user}) : super(key: key);
+import '../home/wrapper.dart';
+
+class Penarikan extends StatefulWidget {
+  const Penarikan({Key? key, user}) : super(key: key);
+
+  @override
+  State<Penarikan> createState() => _PenarikanState();
+}
+
+class _PenarikanState extends State<Penarikan> {
+  UserReferences pref = UserReferences();
+
+  Service userServices = Service();
+
+  List<ListUsersModel?> user = [];
+
+  String? userId;
+
+  ListUsersModel? myUser;
+
+  // late Notificator notification;
+
+  String notificationKey = 'key';
+  String _bodyText = 'notification test';
+
+  TextEditingController jumlah_tarikan = TextEditingController();
+
+  void getUser() async {
+    userId = await pref.getUserId();
+    user = await userServices.getUser(user_id: userId!);
+    setState(() {
+      myUser = user[0];
+    });
+  }
+
+  void tarikSaldo(nominal) async {
+    userId = await pref.getUserId();
+    await userServices
+        .tarikan(nominal: nominal, user_id: userId!)
+        .then((value) {
+      // snackbar
+
+      //   notification.show(
+      //     Random().nextInt(100),
+      //     'Transaksi Berhasil',
+      //     'Penarikan sebesar $nominal berhasil',
+      //     imageUrl: 'https://www.lumico.io/wp-019/09/flutter.jpg',
+      //     data: {notificationKey: '[notification data]'},
+      //     notificationSpecifics: NotificationSpecifics(
+      //       AndroidNotificationSpecifics(
+      //         autoCancelable: true,
+      //       ),
+      //     ),
+      //   );
+      // }).onError((error, stackTrace) {
+      //   // snackbar
+
+      //   );
+    });
+
+    user = await userServices.getUser(user_id: userId!);
+    setState(() {
+      myUser = user[0];
+    });
+  }
+
+  @override
+  void initState() {
+    getUser();
+    super.initState();
+    // notification = Notificator(
+    //   onPermissionDecline: () {
+    //     // ignore: avoid_print
+    //     print('permission decline');
+    //   },
+    //   onNotificationTapCallback: (notificationData) {
+    //     setState(
+    //       () {
+    //         _bodyText = 'notification open: '
+    //             '${notificationData[notificationKey].toString()}';
+    //       },
+    //     );
+    //   },
+    // )..requestPermissions(
+    //     requestSoundPermission: true,
+    //     requestAlertPermission: true,
+    //   );
+  }
 
   @override
   Widget build(BuildContext context) {
-    double jumlah_tarikan = 1;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pinjaman'),
+        title: Text('Tarik Saldo'),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -41,33 +127,13 @@ class Pinjaman extends StatelessWidget {
                       const SizedBox(
                         height: 10.0,
                       ),
-                      // TextFormField(
-                      //   onChanged: (value) {
-                      //     nomor_rekening = value;
-                      //   },
-                      //   validator: (value) {
-                      //     if (value!.isEmpty) {
-                      //       return 'masukan nomor tujuan!';
-                      //     }
-                      //     return null;
-                      //   },
-                      //   decoration: const InputDecoration(
-                      //     border: UnderlineInputBorder(),
-                      //     enabledBorder: UnderlineInputBorder(),
-                      //     hintText: "Nomor rekening Tujuan...",
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 20.0,
-                      // ),
-                      // Text(user.user_id.toString()),
                       const Text('Masukan Jumlah Transfer'),
                       const SizedBox(
                         height: 10.0,
                       ),
                       TextFormField(
-                        // controller: jumlah_transfer,
-                        onChanged: (value) => jumlah_tarikan,
+                        controller: jumlah_tarikan,
+                        // onChanged: (value) => jumlah_tarikan,
                         // controller: jumlah_transfer,
                         keyboardType: TextInputType.number,
                         validator: (value) {
@@ -96,26 +162,22 @@ class Pinjaman extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () async {
                               String popup = "Transfer Berhasil";
-                              NasabahService service = NasabahService();
-                              await service.transfer(
-                                int.parse(
-                                  user.user_id.toString(),
-                                ),
-                                jumlah_tarikan.toDouble(),
-                                user.nomor_rekening.toString(),
-                              );
+                              if (jumlah_tarikan.text.isNotEmpty) {
+                                tarikSaldo(jumlah_tarikan.text);
+                                jumlah_tarikan.clear();
+                              }
                               // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        Dashboard(user: user)),
+                                  builder: (context) => const Wrapper(),
+                                ),
                               );
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: const Text('login berhasil'),
-                                  content: Text(popup),
+                                  title: const Text('Penarikan'),
+                                  content: const Text('Penarikan Berhasil'),
                                   actions: [
                                     TextButton(
                                       onPressed: () {

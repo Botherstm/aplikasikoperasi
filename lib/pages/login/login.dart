@@ -1,11 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:project_uas/pages/home/wrapper.dart';
 
-import '../home/dashboard.dart';
+import '../../model/userpreference.dart';
 import '../../model/list_users_model.dart';
 import 'register.dart';
-import '../../service/list_users_service.dart';
+import '../../service/service_app.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -15,11 +16,44 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  String _scanBarcode = 'Unknown';
+  final _formKey = GlobalKey<FormState>();
+
+  UserReferences userReferences = UserReferences();
+  Service userServices = Service();
+
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  final _services = Service();
+
+  List<ListUsersModel?> _mod = [null];
+  String? user_id;
+
   // ignore: non_constant_identifier_names
   String Username = "";
   // ignore: non_constant_identifier_names
   String Password = "";
   bool _isObscure = true;
+  void awaiting() async {
+    await userReferences.getUserId().then((value) {
+      setState(() {
+        user_id = value;
+      });
+    });
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // awaiting();
+
+  // }
+  void datas(userId) async {
+    if (_mod[0] == null) {
+      _mod = await userServices.getUser(user_id: userId!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +100,7 @@ class _LoginState extends State<Login> {
                         height: 10.0,
                       ),
                       TextFormField(
+                        controller: _usernameController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter a Usename!';
@@ -89,6 +124,7 @@ class _LoginState extends State<Login> {
                         height: 10.0,
                       ),
                       TextFormField(
+                        controller: _passwordController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter a password!';
@@ -100,6 +136,7 @@ class _LoginState extends State<Login> {
                           Password = value;
                         },
                         decoration: InputDecoration(
+                          hintText: '********',
                           suffixIcon: IconButton(
                             icon: Icon(
                               _isObscure
@@ -130,33 +167,45 @@ class _LoginState extends State<Login> {
                           width: MediaQuery.of(context).size.height * 0.2,
                           child: ElevatedButton(
                             onPressed: () async {
-                              String popup =
-                                  "Selamat Datang di aplikasi M-banking Undiksha!!";
-                              ListUsersService service = ListUsersService();
-                              ListUsersModel user =
-                                  await service.postLogin(Username, Password);
-                              // ignore: use_build_context_synchronously
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        Dashboard(user: user)),
-                              );
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('login berhasil'),
-                                  content: Text(popup),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('ok'),
-                                    )
-                                  ],
-                                ),
-                              );
+                              await _services
+                                  .loginUser(
+                                username: _usernameController.text,
+                                password: _passwordController.text,
+                              )
+                                  .then((value) {
+                                if (value != [null]) {
+                                  // print(value);
+                                  setState(() {
+                                    userReferences.setUserId(value[0]!.user_id);
+                                    user_id = value[0]!.user_id;
+                                  });
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Anda berhasil login'),
+                                    ),
+                                  );
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Wrapper(),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('Username atau Password salah'),
+                                    ),
+                                  );
+                                }
+                              }).onError((error, stackTrace) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text('Username atau Password salah'),
+                                  ),
+                                );
+                              });
                             },
                             child: const Text('Login'),
                           ),

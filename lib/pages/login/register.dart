@@ -3,7 +3,7 @@ import '../login/login.dart';
 
 import '../../main.dart';
 import '../../model/list_users_model.dart';
-import '../../service/list_users_service.dart';
+import '../../service/service_app.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -135,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             onPressed: () async {
                               String popup =
                                   "Akun Telah Didaftarkan Silahkan Login";
-                              ListUsersService service = ListUsersService();
+                              Service service = Service();
                               await service.postRegister(
                                 UsernameController.text,
                                 PasswordController.text,

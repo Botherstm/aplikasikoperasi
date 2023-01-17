@@ -1,13 +1,12 @@
 class ListUsersModel {
   // ignore: non_constant_identifier_names
-  String? user_id;
-  String? username;
-  String? password;
-  String? nama;
-  String? saldo;
+  final String user_id;
+  final String username;
+  final String password;
+  final String nama;
+  late double saldo;
   // ignore: non_constant_identifier_names
-  String? nomor_rekening;
-
+  final String nomor_rekening;
   ListUsersModel({
     // ignore: non_constant_identifier_names
     required this.user_id,
@@ -24,7 +23,7 @@ class ListUsersModel {
         username: json["username"],
         password: json["password"],
         nama: json["nama"],
-        saldo: json["saldo"],
+        saldo: double.parse(json['saldo']),
         nomor_rekening: json["nomor_rekening"],
       );
 
