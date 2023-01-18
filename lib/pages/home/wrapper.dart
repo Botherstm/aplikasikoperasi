@@ -29,11 +29,6 @@ class _WrapperState extends State<Wrapper> {
 
   List<ListUsersModel?> _mod = [null];
 
-  // Firebase push notification instance
-  // FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-  // bool toggle = false;
-
   void awaiting() async {
     await userReferences.getUserId().then((value) {
       setState(() {
@@ -41,12 +36,7 @@ class _WrapperState extends State<Wrapper> {
       });
     });
   }
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // awaiting();
 
-  // }
   void datas(user_id) async {
     if (_mod[0] == null) {
       _mod = await userServices.getUser(user_id: user_id!);
@@ -61,8 +51,6 @@ class _WrapperState extends State<Wrapper> {
         user_id = value;
       });
     });
-
-    // print('user_id: $user_id');
 
     if (user_id != null && user_id != '') {
       return FutureBuilder(

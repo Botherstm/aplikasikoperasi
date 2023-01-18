@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:project_uas/service/service_app.dart';
+import 'package:push_notification/push_notification.dart';
 
 import '../../model/list_users_model.dart';
 import '../../model/userpreference.dart';
@@ -26,7 +27,7 @@ class _PenarikanState extends State<Penarikan> {
 
   ListUsersModel? myUser;
 
-  // late Notificator notification;
+  late Notificator notification;
 
   String notificationKey = 'key';
   String _bodyText = 'notification test';
@@ -48,22 +49,20 @@ class _PenarikanState extends State<Penarikan> {
         .then((value) {
       // snackbar
 
-      //   notification.show(
-      //     Random().nextInt(100),
-      //     'Transaksi Berhasil',
-      //     'Penarikan sebesar $nominal berhasil',
-      //     imageUrl: 'https://www.lumico.io/wp-019/09/flutter.jpg',
-      //     data: {notificationKey: '[notification data]'},
-      //     notificationSpecifics: NotificationSpecifics(
-      //       AndroidNotificationSpecifics(
-      //         autoCancelable: true,
-      //       ),
-      //     ),
-      //   );
-      // }).onError((error, stackTrace) {
-      //   // snackbar
-
-      //   );
+      notification.show(
+        Random().nextInt(100),
+        'Transaksi Berhasil',
+        'Penarikan sebesar $nominal berhasil',
+        imageUrl: 'https://www.lumico.io/wp-019/09/flutter.jpg',
+        data: {notificationKey: '[notification data]'},
+        notificationSpecifics: NotificationSpecifics(
+          AndroidNotificationSpecifics(
+            autoCancelable: true,
+          ),
+        ),
+      );
+    }).onError((error, stackTrace) {
+      // snackbar
     });
 
     user = await userServices.getUser(user_id: userId!);
@@ -76,30 +75,30 @@ class _PenarikanState extends State<Penarikan> {
   void initState() {
     getUser();
     super.initState();
-    // notification = Notificator(
-    //   onPermissionDecline: () {
-    //     // ignore: avoid_print
-    //     print('permission decline');
-    //   },
-    //   onNotificationTapCallback: (notificationData) {
-    //     setState(
-    //       () {
-    //         _bodyText = 'notification open: '
-    //             '${notificationData[notificationKey].toString()}';
-    //       },
-    //     );
-    //   },
-    // )..requestPermissions(
-    //     requestSoundPermission: true,
-    //     requestAlertPermission: true,
-    //   );
+    notification = Notificator(
+      onPermissionDecline: () {
+        // ignore: avoid_print
+        print('permission decline');
+      },
+      onNotificationTapCallback: (notificationData) {
+        setState(
+          () {
+            _bodyText = 'notification open: '
+                '${notificationData[notificationKey].toString()}';
+          },
+        );
+      },
+    )..requestPermissions(
+        requestSoundPermission: true,
+        requestAlertPermission: true,
+      );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tarik Saldo'),
+        title: const Text('Tarik Saldo'),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -123,11 +122,10 @@ class _PenarikanState extends State<Penarikan> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('masukan nomor Rekening Tujuan !'),
+                      const Text('masukan Jumlah Tarik !'),
                       const SizedBox(
                         height: 10.0,
                       ),
-                      const Text('Masukan Jumlah Transfer'),
                       const SizedBox(
                         height: 10.0,
                       ),
@@ -138,7 +136,7 @@ class _PenarikanState extends State<Penarikan> {
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Tolong Masukan Jumlah Transfer!';
+                            return 'Tolong Masukan Jumlah Pnarikan !';
                           }
                           return null;
                         },
@@ -161,35 +159,13 @@ class _PenarikanState extends State<Penarikan> {
                           width: MediaQuery.of(context).size.height * 0.2,
                           child: ElevatedButton(
                             onPressed: () async {
-                              String popup = "Transfer Berhasil";
                               if (jumlah_tarikan.text.isNotEmpty) {
                                 tarikSaldo(jumlah_tarikan.text);
                                 jumlah_tarikan.clear();
                               }
                               // ignore: use_build_context_synchronously
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Wrapper(),
-                                ),
-                              );
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Penarikan'),
-                                  content: const Text('Penarikan Berhasil'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('ok'),
-                                    )
-                                  ],
-                                ),
-                              );
                             },
-                            child: const Text('Login'),
+                            child: const Text('Tarik !'),
                           ),
                         ),
                       ),

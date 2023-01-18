@@ -1,16 +1,17 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../model/list_users_model.dart';
 import '../model/userpreference.dart';
 
 class Service {
   Dio dio = Dio();
-  UserReferences userReferences = UserReferences();
   ChangeNotifier changeNotifier = ChangeNotifier();
+  UserReferences userReferences = UserReferences();
+
   String baseUrl = 'http://apikoperasi.rey1024.com/';
   Future<List<ListUsersModel>?> getAllsers() async {
-    String url = 'http://apikoperasi.rey1024.com/users';
+    String url = baseUrl;
     final Response response;
     try {
       response = await dio.get(url);
@@ -79,7 +80,8 @@ class Service {
                 .toList();
 
             // print(user[0].nama);
-            // notifyListeners();
+            // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+            changeNotifier.notifyListeners();
             return user;
           }
         } else {
@@ -130,7 +132,9 @@ class Service {
 
             // print(data);
 
-            // notifyListeners();
+            // print(user[0].nama);
+            // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+            changeNotifier.notifyListeners();
             print(user.toList());
             return user;
           }
@@ -170,8 +174,10 @@ class Service {
                 .map<ListUsersModel>((u) => ListUsersModel.fromJson(u))
                 .toList();
 
-            print(user[0].nama);
-            // notifyListeners();
+            // print(user[0].nama);
+            // print(user[0].nama);
+            // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+            changeNotifier.notifyListeners();
 
             return user;
           }
@@ -207,7 +213,9 @@ class Service {
                 .toList();
 
             // print(data);
-            // notifyListeners();
+            // print(user[0].nama);
+            // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+            changeNotifier.notifyListeners();
             return user;
           }
         } else {
@@ -251,7 +259,9 @@ class Service {
           // userReferences.setSaldo(user.saldo);
           // userReferences.setNomorRekening(user.nomorRekening);
 
-          // notifyListeners();
+          // print(user[0].nama);
+          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+          changeNotifier.notifyListeners();
           return true;
         } else {
           throw false;
@@ -298,7 +308,9 @@ class Service {
           // userReferences.setSaldo(user.saldo);
           // userReferences.setNomorRekening(user.nomorRekening);
 
-          // notifyListeners();
+          // print(user[0].nama);
+          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+          changeNotifier.notifyListeners();
           return true;
         } else {
           throw false;
@@ -342,7 +354,9 @@ class Service {
           // userReferences.setSaldo(user.saldo);
           // userReferences.setNomorRekening(user.nomorRekening);
 
-          // notifyListeners();
+          // print(user[0].nama);
+          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+          changeNotifier.notifyListeners();
           return true;
         } else {
           throw false;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:project_uas/pages/home/wrapper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class QrScanner extends StatefulWidget {
@@ -35,10 +36,29 @@ class _QrScannerState extends State<QrScanner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        ElevatedButton(onPressed: () => _scan(), child: Text('scan')),
-        // ElevatedButton (child: Text ("Scan Barcode")),
-        // onPressed: ()=>_scan(),
+      body: Column(children: [
+        Padding(
+          padding: EdgeInsets.only(top: 100),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () => _scan(),
+                child: const Text('scan'),
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Wrapper(),
+                      ),
+                    );
+                  },
+                  child: const Text('Kembali')),
+            ],
+          ),
+        ),
         TextButton(
           onPressed: () {
             _launchUrl();

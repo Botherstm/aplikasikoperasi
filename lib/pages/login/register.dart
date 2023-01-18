@@ -141,10 +141,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                 PasswordController.text,
                                 NamaController.text,
                               );
+                              // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Login(),
+                                  builder: (context) => const Login(),
                                 ),
                               );
                               showDialog(

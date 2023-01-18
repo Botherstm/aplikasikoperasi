@@ -5,6 +5,7 @@ import '../../model/list_users_model.dart';
 
 import '../../model/userpreference.dart';
 import '../../service/service_app.dart';
+import '../home/wrapper.dart';
 
 class Deposito extends StatefulWidget {
   const Deposito({
@@ -46,53 +47,21 @@ class _DepositoState extends State<Deposito> {
         .setoran(nominal: nominal, user_id: userId!)
         .then((value) {
       // snackbar
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          backgroundColor: Colors.green,
-          title: const Text('Deposit'),
-          content: const Text('Deposito Berhasil'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('ok'),
-            )
-          ],
+
+      notification.show(
+        1,
+        'Transaksi Berhasil',
+        'Setoran sebesar $nominal berhasil',
+        imageUrl: 'https://www.lumico.io/wp-019/09/flutter.jpg',
+        data: {notificationKey: '[notification data]'},
+        notificationSpecifics: NotificationSpecifics(
+          AndroidNotificationSpecifics(
+            autoCancelable: true,
+          ),
         ),
       );
-      // notification.show(
-      //   1,
-      //   'Transaksi Berhasil',
-      //   'Setoran sebesar $nominal berhasil',
-      //   imageUrl: 'https://www.lumico.io/wp-019/09/flutter.jpg',
-      //   data: {notificationKey: '[notification data]'},
-      //   notificationSpecifics: NotificationSpecifics(
-      //     AndroidNotificationSpecifics(
-      //       autoCancelable: true,
-      //     ),
-      //   ),
-      // );
-    }).onError((error, stackTrace) {
-      // snackbar
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          backgroundColor: Colors.green,
-          title: const Text('Deposit'),
-          content: const Text('Deposito Gagal !!'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('ok'),
-            )
-          ],
-        ),
-      );
-    });
+    }).onError((error, stackTrace) {});
+// ignore: use_build_context_synchronously
 
     user = await userServices.getUser(user_id: userId!);
     setState(() {
@@ -104,23 +73,23 @@ class _DepositoState extends State<Deposito> {
   void initState() {
     getUser();
     super.initState();
-    // notification = Notificator(
-    //   onPermissionDecline: () {
-    //     // ignore: avoid_print
-    //     print('permission decline');
-    //   },
-    //   onNotificationTapCallback: (notificationData) {
-    //     setState(
-    //       () {
-    //         _bodyText = 'notification open: '
-    //             '${notificationData[notificationKey].toString()}';
-    //       },
-    //     );
-    //   },
-    // )..requestPermissions(
-    //     requestSoundPermission: true,
-    //     requestAlertPermission: true,
-    //   );
+    notification = Notificator(
+      onPermissionDecline: () {
+        // ignore: avoid_print
+        print('permission decline');
+      },
+      onNotificationTapCallback: (notificationData) {
+        setState(
+          () {
+            _bodyText = 'notification open: '
+                '${notificationData[notificationKey].toString()}';
+          },
+        );
+      },
+    )..requestPermissions(
+        requestSoundPermission: true,
+        requestAlertPermission: true,
+      );
   }
 
   @override
@@ -151,11 +120,11 @@ class _DepositoState extends State<Deposito> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('masukan nomor Rekening Tujuan !'),
+                      const Text('Masukan Jumlah Deposit !'),
                       const SizedBox(
                         height: 10.0,
                       ),
-                      const Text('Masukan Jumlah Transfer'),
+
                       const SizedBox(
                         height: 10.0,
                       ),

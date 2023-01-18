@@ -74,8 +74,8 @@ class UserReferences {
   // setting null all data
   void setNullAllData() async {
     _prefs = await _pref;
-    _prefs!.setString('userId', '');
-    _prefs!.setString('userName', '');
+    _prefs!.setString('user_id', '');
+    _prefs!.setString('username', '');
     _prefs!.setString('nama', '');
     _prefs!.setDouble('saldo', 0.0);
     _prefs!.setString('password', '');

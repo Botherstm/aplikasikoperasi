@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:project_uas/pages/home/wrapper.dart';
 import 'package:project_uas/service/service_app.dart';
+import 'package:push_notification/push_notification.dart';
 
 import '../../model/list_users_model.dart';
 import '../../model/userpreference.dart';
@@ -32,16 +33,17 @@ class _TransferState extends State<Transfer> {
 
   int? biayaAdmin;
 
-  // late Notificator notification;
+  late Notificator notification;
 
   String notificationKey = 'key';
-  final String _bodyText = 'notification test';
+  late String _bodyText = 'notification test';
 
   // ignore: non_constant_identifier_names
   final jumlah_tarik = TextEditingController();
   // ignore: non_constant_identifier_names
   final nomor_rekening = TextEditingController();
   final pinController = TextEditingController();
+  // ignore: unused_field
 
   void getUser() async {
     userId = await pref.getUserId();
@@ -76,26 +78,18 @@ class _TransferState extends State<Transfer> {
             .transfer(
                 nominal: nominal, user_id: userId!, rekeningTujuan: rekening)
             .then((value) {
-          // snackbar
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Transfer berhasil'),
-              backgroundColor: Colors.green,
+          notification.show(
+            1,
+            'Transfer berhasil',
+            'Transfer sebesar $nominal berhasil',
+            imageUrl: 'https://www.lumico.io/wp-019/09/flutter.jpg',
+            data: {notificationKey: '[notification data]'},
+            notificationSpecifics: NotificationSpecifics(
+              AndroidNotificationSpecifics(
+                autoCancelable: true,
+              ),
             ),
           );
-
-          // notification.show(
-          //   Random().nextInt(100),
-          //   'Transfer berhasil',
-          //   'Transfer sebesar $nominal berhasil',
-          //   imageUrl: 'https://www.lumico.io/wp-019/09/flutter.jpg',
-          //   data: {notificationKey: '[notification data]'},
-          //   notificationSpecifics: NotificationSpecifics(
-          //     AndroidNotificationSpecifics(
-          //       autoCancelable: true,
-          //     ),
-          //   ),
-          // );
         }).onError((error, stackTrace) {
           // snackbar
           ScaffoldMessenger.of(context).showSnackBar(
@@ -127,30 +121,30 @@ class _TransferState extends State<Transfer> {
   void initState() {
     getUser();
     super.initState();
-    // notification = Notificator(
-    //   onPermissionDecline: () {
-    //     // ignore: avoid_print
-    //     print('permission decline');
-    //   },
-    //   onNotificationTapCallback: (notificationData) {
-    //     setState(
-    //       () {
-    //         _bodyText = 'notification open: '
-    //             '${notificationData[notificationKey].toString()}';
-    //       },
-    //     );
-    //   },
-    // )..requestPermissions(
-    //     requestSoundPermission: true,
-    //     requestAlertPermission: true,
-    //   );
+    notification = Notificator(
+      onPermissionDecline: () {
+        // ignore: avoid_print
+        print('permission decline');
+      },
+      onNotificationTapCallback: (notificationData) {
+        setState(
+          () {
+            _bodyText = 'notification open: '
+                '${notificationData[notificationKey].toString()}';
+          },
+        );
+      },
+    )..requestPermissions(
+        requestSoundPermission: true,
+        requestAlertPermission: true,
+      );
   }
 
+  TextEditingController jumlah_transfer = TextEditingController();
+  TextEditingController nomor_tujuan = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // ignore: non_constant_identifier_names
-    TextEditingController jumlah_transfer = TextEditingController();
-    // // ignore: non_constant_identifier_names
 
     return Scaffold(
       appBar: AppBar(
@@ -183,6 +177,7 @@ class _TransferState extends State<Transfer> {
                         height: 10.0,
                       ),
                       TextFormField(
+                        controller: nomor_rekening,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'masukan nomor tujuan!';
@@ -209,13 +204,8 @@ class _TransferState extends State<Transfer> {
                         controller: jumlah_transfer,
                         // controller: jumlah_transfer,
                         keyboardType: TextInputType.number,
-                        // validator: (value) {
-                        //   if (value!.isEmpty) {
-                        //     return 'Tolong Masukan Jumlah Transfer!';
-                        //   }
-                        //   return null;
-                        // },
                         decoration: const InputDecoration(
+                          hintText: "Masukan Jumlah Transfer...",
                           border: UnderlineInputBorder(),
                           enabledBorder: UnderlineInputBorder(),
                         ),
@@ -227,27 +217,6 @@ class _TransferState extends State<Transfer> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      // Text(user.user_id.toString()),
-                      const Text('Masukan Pin anda !'),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      TextFormField(
-                        // controller: jumlah_transfer,
-                        controller: pinController,
-                        // controller: jumlah_transfer,
-                        keyboardType: TextInputType.number,
-                        // validator: (value) {
-                        //   if (value!.isEmpty) {
-                        //     return 'Tolong Masukan Jumlah Transfer!';
-                        //   }
-                        //   return null;
-                        // },
-                        decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          enabledBorder: UnderlineInputBorder(),
-                        ),
-                      ),
                       Center(
                         child: SizedBox(
                           width: MediaQuery.of(context).size.height * 0.2,
@@ -256,13 +225,6 @@ class _TransferState extends State<Transfer> {
                               transferSaldo(
                                 jumlah_transfer.text,
                                 nomor_rekening.text,
-                              );
-
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Wrapper(),
-                                ),
                               );
                             },
                             child: const Text('Transfer'),

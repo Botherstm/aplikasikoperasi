@@ -46,6 +46,7 @@ dependencies:
   google_fonts: ^2.1.0
   url_launcher: ^6.1.7
   push_notification: ^1.1.1
+  provider: ^6.0.5
 
 
 dev_dependencies:

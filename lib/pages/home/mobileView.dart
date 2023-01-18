@@ -6,7 +6,6 @@ import 'package:project_uas/service/service_app.dart';
 import '../../model/list_users_model.dart';
 import '../../model/tombol.dart';
 import '../../model/userpreference.dart';
-import '../bank/cek_saldo.dart';
 import '../bank/deposito.dart';
 import '../bank/transfer.dart';
 import '../bank/penarikan.dart';
@@ -134,43 +133,60 @@ class _MobileViewState extends State<MobileView> {
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        InkWell(
-                                          onTap: () async {
-                                            await updateUser();
-                                            setState(() {
-                                              user = user;
-                                              user!.saldo = user!.saldo;
-                                            });
-                                            _changed(true, '1');
-                                          },
-                                          child: visibility1
-                                              ? InkWell(
-                                                  onTap: () {
-                                                    _changed(false,
-                                                        '1'); //fungsi changed
-                                                  },
-                                                  child: const Icon(
-                                                    Icons
-                                                        .keyboard_arrow_up_sharp,
-                                                    color: Colors.black,
-                                                  ),
-                                                )
-                                              : const Icon(
-                                                  Icons
-                                                      .keyboard_arrow_right_sharp,
-                                                  color: Colors.black,
-                                                ),
-                                        ),
-                                        Visibility(
-                                          visible: visibility1,
-                                          child: Text(
-                                            'Rp ' + user!.saldo.toString(),
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.w400,
+                                        Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                await updateUser();
+                                                setState(() {
+                                                  user = user;
+                                                  user!.saldo = user!.saldo;
+                                                });
+                                                _changed(true, '1');
+                                                _changed(false, '2');
+                                              },
+                                              child: visibility1
+                                                  ? InkWell(
+                                                      onTap: () {
+                                                        _changed(false,
+                                                            '1'); //fungsi changed
+                                                        _changed(true, '2');
+                                                      },
+                                                      child: const Icon(
+                                                        Icons.visibility,
+                                                        color: Colors.black,
+                                                      ),
+                                                    )
+                                                  : const Icon(
+                                                      Icons.visibility_off,
+                                                      color: Colors.black,
+                                                    ),
                                             ),
-                                          ),
-                                        ),
+                                            const SizedBox(
+                                              width: 15,
+                                            ),
+                                            Visibility(
+                                              visible: visibility2,
+                                              child: Text(
+                                                'Rp ' + user!.saldo.toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                            Visibility(
+                                              visible: visibility1,
+                                              child: const Text(
+                                                '********',
+                                                style: TextStyle(
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
                                       ],
                                     ),
                                   ),
@@ -202,35 +218,17 @@ class _MobileViewState extends State<MobileView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           tombolkategori(
-                            Icons.wallet,
-                            'Cek Saldo',
-                            () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const CekSaldo(),
-                                ),
-                              );
-                            },
-                          ),
-                          tombolkategori(
                             Icons.money,
                             'Transfer',
                             () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Transfer(),
+                                  builder: (context) => const Transfer(),
                                 ),
                               );
                             },
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
                           tombolkategori(
                             Icons.money_sharp,
                             'Deposit',
@@ -238,7 +236,7 @@ class _MobileViewState extends State<MobileView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Deposito(),
+                                  builder: (context) => const Deposito(),
                                 ),
                               );
                             },
@@ -250,13 +248,14 @@ class _MobileViewState extends State<MobileView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Penarikan(),
+                                  builder: (context) => const Penarikan(),
                                 ),
                               );
                             },
                           ),
                         ],
                       ),
+                      const SizedBox(height: 10),
                     ]),
               ),
               const SizedBox(height: 10),
